@@ -112,6 +112,65 @@ router.get('/atlag',async (request,response)=>{
         console.log('GET api/readfile error: '+error);
     }
 })
+router.get('/min',async (request,response)=>{
+    try{
+        const content = await readTextFile( path.join(__dirname, '../forras/szamok.txt')); 
+        let numbers=content.split(',');
+        let min=0;
+        
+        for(let i=0;i<numbers.length;i++){
+          if(parseInt(numbers[i])<parseInt(numbers[min])){
+            min=i;
+          }
+          console.log(numbers[min]);
+        }
+  
+        response.status(200).json({
+            result:numbers[min]
+        });
+
+    }
+    catch(error){
+        console.log('GET api/readfile error: '+error);
+    }
+})
+
+router.get('/max',async (request,response)=>{
+    try{
+        const content = await readTextFile( path.join(__dirname, '../forras/szamok.txt')); 
+        let numbers=content.split(',');
+        let min=0;
+        
+        for(let i=0;i<numbers.length;i++){
+          if(parseInt(numbers[i])>parseInt(numbers[min])){
+            min=i;
+          }
+          console.log(numbers[min]);
+        }
+  
+        response.status(200).json({
+            result:numbers[min]
+        });
+
+    }
+    catch(error){
+        console.log('GET api/readfile error: '+error);
+    }
+})
+router.get('/sort',async (request,response)=>{
+    try{
+        const content = await readTextFile( path.join(__dirname, '../forras/szamok.txt')); 
+        let numbers=content.split(',');
+        numbers.sort((a, b)=> a-b);
+        response.status(200).json({
+            result: numbers          
+        });
+    }
+    catch(error){
+        console.log('GET api/readfile error: '+error);
+    }
+})
+
 
 
 

@@ -25,6 +25,36 @@ document.addEventListener('DOMContentLoaded',()=>{
     .catch((error) => {
         console.error('Hiba: ', error.message);
     });
+
+    
+    getMethodFetch('api/min')
+    .then((data) => {
+        console.log('min: ', data.result);
+       
+    })
+    .catch((error) => {
+        console.error('Hiba: ', error.message);
+    });
+
+     getMethodFetch('api/max')
+    .then((data) => {
+        console.log('max: ', data.result);
+       
+    })
+    .catch((error) => {
+        console.error('Hiba: ', error.message);
+    });
+
+        getMethodFetch('api/sort')
+    .then((data) => {
+        console.log('sort: ', data.result);
+       
+    })
+    .catch((error) => {
+        console.error('Hiba: ', error.message);
+    });
+
+
 })
 const postMethodFetch = async (url, data) => {
     try {
