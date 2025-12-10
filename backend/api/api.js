@@ -6,6 +6,8 @@ const fs = require('fs/promises');
 //!Multer
 const multer = require('multer'); //?npm install multer
 const path = require('path');
+const { text } = require('stream/consumers');
+const { request } = require('http');
 
 const storage = multer.diskStorage({
     destination: (request, file, callback) => {
@@ -40,5 +42,77 @@ router.get('/testsql', async (request, response) => {
         });
     }
 });
+const readTextFile = async (filePath) => {
+    try {
+      const text = await fs.readFile(filePath, 'utf8');
+      return text; // string
+    } catch (error) {
+      throw new Error(`Olvasási hiba (text): ${error.message}`);
+    }
+  };
+  
+router.get('/readfile', async (request, response) => {
+  try{ 
+    const content = await readTextFile( path.join(__dirname, '../forras/adatok.txt')); 
+    response.status(200).json({
+        result:content
+    });
+  }catch(error){
+    console.log('GET api/readfile error: '+error);
+  }
+
+});
+router.get('/osszeg', async (request, response) => {
+    try{ 
+      const content = await readTextFile( path.join(__dirname, '../forras/szamok.txt')); 
+      let numbers=content.split(',');
+      let osszeg=0;
+      
+      for(const item of numbers){
+        osszeg+=parseInt(item);
+      }
+      response.status(200).json({
+          result:osszeg
+      });
+    }catch(error){
+      console.log('GET api/readfile error: '+error);
+    }
+  });
+router.get('/sorozat', async (request,response)=>{
+    try{
+        const content = await readTextFile( path.join(__dirname, '../forras/szamok.txt')); 
+        let numbers=content.split(',');
+        let elso=numbers[0];
+        let utolso=numbers[numbers.length-1];
+        response.status(200).json({
+            result:""+ elso+" "+utolso
+        });
+      
+    }
+    catch(error){
+        console.log('GET api/readfile error: '+error);
+    }
+})
+router.get('/atlag',async (request,response)=>{
+    try{
+        const content = await readTextFile( path.join(__dirname, '../forras/szamok.txt')); 
+        let numbers=content.split(',');
+        let osszeg=0;
+        
+        for(const item of numbers){
+          osszeg+=parseInt(item);
+        }
+        let atlag=osszeg/numbers.length;
+        response.status(200).json({
+            result:atlag
+        });
+
+    }
+    catch(error){
+        console.log('GET api/readfile error: '+error);
+    }
+})
+
+
 
 module.exports = router;
