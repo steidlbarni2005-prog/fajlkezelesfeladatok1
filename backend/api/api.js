@@ -171,7 +171,44 @@ router.get('/sort',async (request,response)=>{
     }
 })
 
+/*harmas feladat */
+  
+router.get('/getallstat', async (request, response) => {
+  try{ 
+    const {telepules:content} = JSON.parse(await readTextFile( path.join(__dirname, '../forras/statisztika.json'))); 
+    response.status(200).json({
+        result:content
+    });
+  }catch(error){
+    console.log('GET api/readfile error: '+error);
+  }
+});
+
+router.get('/getstat/:telepaz',async (request,response)=>{
+    const id =request.params.telepaz;
+    console.log(id)
+    const {telepules:content} = JSON.parse(await readTextFile( path.join(__dirname, '../forras/statisztika.json'))); 
+    let j=0;
+    console.log(content)
+    while(j<content.length&&content[j].telepaz!=id){
+        j++;
+    }
+    if(j<content.length){
+          response.status(200).json({
+            result:content[j]
+    });
+    }
+    else{
+          response.status(200).json({
+            result: "errorMsg Nem található ilyen település azonosító!"
+          })
+    }
+    
+});
+
+
 
 
 
 module.exports = router;
+

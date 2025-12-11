@@ -28,6 +28,7 @@ app.use(
 router.get('/', (request, response) => {
     response.sendFile(path.join(__dirname, '../frontend/html/index.html'));
 });
+
 router.get('/feladat1', (request, response) => {
     response.sendFile(path.join(__dirname, '../frontend/html/feladat1.html'));
 });
@@ -35,6 +36,13 @@ router.get('/feladat1', (request, response) => {
 router.get('/feladat2', (request, response) => {
     response.sendFile(path.join(__dirname, '../frontend/html/feladat2.html'));
 });
+router.get('/feladat3', (request, response) => {
+    response.sendFile(path.join(__dirname, '../frontend/html/feladat3.html'));
+});
+router.get('/feladat4', (request, response) => {
+    response.sendFile(path.join(__dirname, '../frontend/html/feladat4.html'));
+});
+
 
 //!API endpoints
 app.use('/', router);
